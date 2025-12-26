@@ -1,0 +1,62 @@
+.textSection {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 80px;
+  width: 100%;
+  overflow: hidden;
+
+  & svg {
+    max-width: 400px;
+    height: auto;
+  }
+}
+
+.armor {
+  aspect-ratio: 1 / 2;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+}
+
+.phoneModel {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  display: grid;
+  place-items: center;
+}
+
+.phoneLoader {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+}
+
+.model {
+  --width: 120%;
+  --aspectRatio: 7 / 10;
+
+  min-width: var(--width);
+  aspect-ratio: var(--aspectRatio);
+  display: grid;
+  position: relative;
+
+  &[data-device='phone'] {
+    top: 5%;
+    left: -5%;
+  }
+
+  @media (--mediaTablet) {
+    --width: 110%;
+    left: 0;
+  }
+}
