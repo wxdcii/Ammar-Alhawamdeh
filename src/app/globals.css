@@ -1,0 +1,456 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --grid-cell-size: 40px;
+  --portfolio-grid-columns: 18;
+  --portfolio-content-width: calc(var(--grid-cell-size) * var(--portfolio-grid-columns));
+  --radius: 0.625rem;
+  --background: oklch(100% 0.00011 271.152);
+  --foreground: oklch(0.18 0.01 155);
+  --card: oklch(0.985 0.005 155);
+  --card-foreground: oklch(0.18 0.01 155);
+  --popover: oklch(0.985 0.005 155);
+  --popover-foreground: oklch(0.18 0.01 155);
+  --primary: oklch(0.18 0.01 155);
+  --primary-foreground: oklch(0.98 0.005 155);
+  --secondary: oklch(0.42 0.015 155);
+  --secondary-foreground: oklch(0.18 0.01 155);
+  --muted: oklch(0.94 0.008 155);
+  --muted-foreground: oklch(0.42 0.015 155);
+  --accent: oklch(0.94 0.008 155);
+  --accent-foreground: oklch(0.18 0.01 155);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.88 0.012 155);
+  --input: oklch(0.88 0.012 155);
+  --ring: oklch(0.55 0.02 155);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.708 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bg-green-grid {
+  background-color: var(--background);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px);
+  background-position: top center;
+  background-size: var(--grid-cell-size) var(--grid-cell-size);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dark .bg-green-grid {
+  background-color: oklch(0.14 0.015 160);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-position: top center;
+  background-size: var(--grid-cell-size) var(--grid-cell-size);
+}
+
+.corner-frame {
+  position: relative;
+}
+
+.corner-frame::before,
+.corner-frame::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  z-index: 21;
+  width: 34px;
+  height: 34px;
+  border: 1px solid color-mix(in srgb, var(--foreground) 80%, transparent);
+}
+
+.corner-frame::before {
+  left: calc(var(--grid-cell-size) * -0.5);
+  top: calc(var(--grid-cell-size) * -0.28);
+  border-color:
+    color-mix(in srgb, var(--foreground) 80%, transparent) transparent transparent
+    color-mix(in srgb, var(--foreground) 80%, transparent);
+}
+
+.corner-frame::after {
+  bottom: calc(var(--grid-cell-size) * -0.77);
+  right: calc(var(--grid-cell-size) * -0.5);
+  border-color:
+    transparent color-mix(in srgb, var(--foreground) 80%, transparent)
+    color-mix(in srgb, var(--foreground) 80%, transparent) transparent;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --grid-cell-size: 32px;
+    --portfolio-content-width: 100vw;
+  }
+
+  .page-content {
+    width: 100%;
+  }
+
+  .corner-frame::before,
+  .corner-frame::after {
+    display: none;
+  }
+}
+
+.glass-header {
+  background: color-mix(in srgb, var(--card) 55%, transparent);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--foreground) 4%, transparent);
+}
+
+.glass-nav {
+  background: color-mix(in srgb, var(--card) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--foreground) 5%, transparent),
+    0 8px 24px color-mix(in srgb, var(--foreground) 3%, transparent);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+.dark .glass-header {
+  background: color-mix(in srgb, var(--background) 35%, transparent);
+}
+
+.dark .glass-nav {
+  background: color-mix(in srgb, var(--card) 55%, transparent);
+  border-color: color-mix(in srgb, var(--foreground) 12%, transparent);
+}
+
+@keyframes vinyl-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-vinyl-spin {
+  animation: vinyl-spin 4s linear infinite;
+}
+
+.vinyl-disc {
+  background-color: #111;
+  background-image:
+    radial-gradient(circle at center, transparent 24%, rgba(255, 255, 255, 0.04) 25%, transparent 26%),
+    radial-gradient(circle at center, transparent 44%, rgba(255, 255, 255, 0.03) 45%, transparent 46%),
+    repeating-radial-gradient(
+      circle at center,
+      #1a1a1a 0px,
+      #1a1a1a 1.5px,
+      #0a0a0a 1.5px,
+      #0a0a0a 3px
+    );
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.page-content {
+  animation: fade-in-up 0.4s ease-out both;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in-up-on-view {
+  animation: none;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.achievement-gallery {
+  column-count: 2;
+  column-gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .achievement-gallery {
+    column-count: 3;
+  }
+}
+
+.achievement-gallery-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+#mowgli-wake-hint {
+  position: fixed;
+  z-index: 2147483647;
+  display: none;
+  pointer-events: none;
+  white-space: nowrap;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--foreground);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+#mowgli.is-asleep {
+  cursor: pointer;
+}
+
+#mowgli-zzz {
+  position: fixed;
+  z-index: 2147483647;
+  display: none;
+  pointer-events: none;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 700;
+  line-height: 1;
+  color: oklch(0.58 0 0);
+  animation: mowgli-zzz-float 2s ease-in-out infinite;
+}
+
+#mowgli-zzz span {
+  display: inline-block;
+}
+
+#mowgli-zzz span:nth-child(1) {
+  font-size: 8px;
+  opacity: 0.45;
+  transform: translateY(4px);
+}
+
+#mowgli-zzz span:nth-child(2) {
+  font-size: 9px;
+  opacity: 0.65;
+  margin-left: 1px;
+  transform: translateY(1px);
+}
+
+#mowgli-zzz span:nth-child(3) {
+  font-size: 11px;
+  opacity: 0.85;
+  margin-left: 2px;
+}
+
+@keyframes mowgli-zzz-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.prose pre {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+
+/* The playback control unfolds into the available space in the music card. */
+.music-card-row {
+  container-type: inline-size;
+  flex-wrap: wrap;
+}
+
+.music-player {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #1db954;
+  color: white;
+  transition: width 450ms cubic-bezier(0.22, 1, 0.36, 1), height 450ms ease,
+    background-color 300ms ease, border-radius 450ms ease, gap 450ms ease,
+    padding 450ms ease;
+}
+
+.music-player--playing {
+  width: clamp(180px, 38cqi, 300px);
+  height: 56px;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background: #1db954;
+}
+
+.music-player-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+
+.music-player-toggle:hover { background: rgb(255 255 255 / 12%); }
+.music-player-toggle:focus-visible { outline: 2px solid #1db954; outline-offset: -3px; }
+.music-player-toggle:disabled { cursor: not-allowed; opacity: 0.4; }
+.music-player--playing .music-player-toggle { box-shadow: inset 0 0 0 1px rgb(255 255 255 / 35%); }
+
+.music-player-waveform {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.music-player-waveform span {
+  width: 2px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: white;
+  animation: music-wave 900ms ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+
+.music-player-time {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transition: opacity 200ms ease;
+}
+
+.music-player--playing .music-player-waveform,
+.music-player--playing .music-player-time { opacity: 1; }
+.music-player--playing .music-player-time { max-width: 60px; }
+.music-player--playing .music-player-waveform span { animation-play-state: running; }
+
+@container (max-width: 440px) {
+  .music-player--playing { width: 100%; }
+}
+
+@keyframes music-wave {
+  from { transform: scaleY(0.45); }
+  to { transform: scaleY(1.45); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .music-player, .music-player-waveform, .music-player-time,
+  .music-player-toggle { transition: none; }
+  .music-player-waveform span, .animate-vinyl-spin { animation: none; }
+}
+
+/* Offscreen sections retain their HTML while the browser defers layout/painting. */
+main [data-scroll-section] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
+}
+
+.scroll-reveal-pending {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.scroll-reveal-visible {
+  animation: fade-in-up 450ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal-pending { opacity: 1; transform: none; }
+  .scroll-reveal-visible { animation: none; }
+}
+
+@media print {
+  main [data-scroll-section] { content-visibility: visible; }
+  .scroll-reveal-pending { opacity: 1; transform: none; }
+}

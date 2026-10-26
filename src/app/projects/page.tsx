@@ -1,0 +1,26 @@
+import { Container } from "@/components/container";
+import { ProjectsGrid } from "@/components/projects-grid";
+import { projects } from "@/config/projects";
+import { createPageMetadata, pageTitle } from "@/lib/metadata";
+
+export const metadata = createPageMetadata({
+  title: pageTitle("Projects"),
+  description:
+    "Full-stack systems, internal tools, and digital products built by Ammar Al-Hawamdeh.",
+  path: "/projects",
+});
+
+export default function ProjectsPage() {
+  return (
+    <div className="space-y-10 pb-16 pt-8">
+      <Container>
+        <p className="text-sm text-secondary">Featured</p>
+        <h1 className="mt-1 text-3xl font-bold tracking-tight">Projects</h1>
+        <p className="mt-3 text-secondary">
+          AI systems, RAG pipelines, and full-stack products I&apos;ve built along the way.
+        </p>
+      </Container>
+      <ProjectsGrid items={projects} showHeading={false} />
+    </div>
+  );
+}
