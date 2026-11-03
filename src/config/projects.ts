@@ -23,6 +23,18 @@ export const projects: Project[] = [
     gradient: "from-violet-500/25 via-indigo-500/15 to-slate-950/40",
   },
   {
+    slug: "ammar-alhawamdeh-game",
+    title: "Game to Get to Know Me",
+    date: "11.2026",
+    description:
+      "An interactive, driving-inspired portfolio experience showcasing my work, experience, and software projects.",
+    tech: ["TypeScript", "React", "Next.js"],
+    website: "https://ammaralhawamdehgame.vercel.app/",
+    featured: true,
+    cover: "/assets/game.png",
+    gradient: "from-amber-500/20 via-orange-500/15 to-red-500/20",
+  },
+  {
     slug: "doors",
     title: "Doors",
     date: "10.2026",

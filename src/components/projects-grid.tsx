@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   const detailHref = `/projects/${project.slug}`;
+  const isGame = project.slug === "ammar-alhawamdeh-game";
 
   return (
     <LiquidGlassCard
@@ -102,10 +103,12 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
             })}
             </div>
             <Link
-              href={detailHref}
+              href={isGame && project.website ? project.website : detailHref}
+              target={isGame ? "_blank" : undefined}
+              rel={isGame ? "noopener noreferrer" : undefined}
               className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-secondary transition-colors hover:bg-muted hover:text-foreground"
             >
-              View Details
+              {isGame ? "Start Game" : "View Details"}
               <ArrowRight className="size-3.5" />
             </Link>
           </div>

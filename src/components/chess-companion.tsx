@@ -84,7 +84,11 @@ export function ChessCompanion() {
       }
       if (line.startsWith("bestmove")) applyMove(line.split(/\s+/)[1]);
     };
-    worker.onerror = () => { setEngineReady(false); setEngineThinking(false); };
+    worker.onerror = (event) => {
+      event.preventDefault();
+      setEngineReady(false);
+      setEngineThinking(false);
+    };
     worker.postMessage("uci");
     return () => worker.terminate();
     // The worker is intentionally created once.
@@ -188,16 +192,16 @@ export function ChessCompanion() {
 
   return <div className="relative overflow-hidden rounded-[24px] border border-white/[0.08] bg-[#080910] shadow-[0_30px_100px_rgba(0,0,0,.55)]">
     <div className="grid md:grid-cols-[minmax(480px,570px)_250px] md:justify-center">
-      <main className="min-w-0 p-3 sm:p-4">
+      <main className="mx-auto min-w-0 w-full max-w-[570px] p-2 sm:p-4">
         <div className="mb-3 flex items-center justify-between"><div className="flex items-center gap-3"><Image src="/assets/Me.jpeg" alt="Ammar Alhawamdeh" width={42} height={42} className="size-[42px] rounded-full object-cover ring-2 ring-white/10" /><div><div className="text-sm font-semibold text-white">Ammar Alhawamdeh</div><div className="text-[10px] text-white/60">{MODES[mode].label}</div></div></div>{engineThinking && <div className="flex items-center gap-2 text-[10px] text-white/35"><SpinnerGap className="animate-spin" /> Thinking</div>}</div>
-        <div className="grid aspect-square w-full grid-cols-8 overflow-hidden rounded-md border border-white/15 bg-[#2b2834] shadow-[0_20px_60px_rgba(0,0,0,.5)]">
+        <div className="grid aspect-square w-full max-w-[570px] grid-cols-8 overflow-hidden rounded-md border border-white/15 bg-[#2b2834] shadow-[0_20px_60px_rgba(0,0,0,.5)]">
           {squares.map((square) => {
             const piece = game.get(square); const rank = Number(square[1]); const file = FILES.indexOf(square[0]); const dark = (file + rank) % 2 === 1;
             const target = targets.find((move) => move.to === square); const active = selected === square; const recent = lastMove && (lastMove.from === square || lastMove.to === square);
             const checked = piece?.type === "k" && piece.color === game.turn() && game.inCheck();
-            return <button key={square} type="button" onClick={() => clickSquare(square)} aria-label={`Square ${square}`} className={`relative grid aspect-square place-items-center overflow-hidden text-[clamp(27px,7vw,54px)] leading-none select-none ${dark ? "bg-[#756f68]" : "bg-[#dedad0]"} ${recent ? "after:absolute after:inset-0 after:bg-yellow-300/30" : ""}`}>
+            return <button key={square} type="button" onClick={() => clickSquare(square)} aria-label={`Square ${square}`} className={`relative grid aspect-square place-items-center overflow-hidden text-[clamp(30px,11vw,54px)] leading-none select-none touch-manipulation ${dark ? "bg-[#756f68]" : "bg-[#dedad0]"} ${recent ? "after:absolute after:inset-0 after:bg-yellow-300/30" : ""}`}>
               {checked && <span className="absolute inset-1 rounded-full bg-red-500/35" />}{target && <span className={`absolute z-[1] ${piece ? "size-[82%] rounded-full border-[5px] border-emerald-400/70" : "size-[22%] rounded-full bg-emerald-500/70"}`} />}{active && <span className="absolute inset-0 ring-[3px] ring-inset ring-violet-400" />}
-              {piece && <span className={`relative z-[2] ${piece.color === "w" ? "text-[#fffefa] drop-shadow-[0_2px_0_rgba(0,0,0,.75)]" : "text-[#292633] drop-shadow-[0_1px_0_rgba(255,255,255,.35)]"}`}>{PIECES[piece.color][piece.type]}</span>}
+              {piece && <span className={`relative z-[2] [font-family:'Arial_Unicode_MS','Segoe_UI_Symbol','Noto_Sans_Symbols_2',sans-serif] ${piece.color === "w" ? "text-[#fffefa] drop-shadow-[0_2px_0_rgba(0,0,0,.75)]" : "text-[#292633] drop-shadow-[0_1px_0_rgba(255,255,255,.35)]"}`}>{PIECES[piece.color][piece.type]}</span>}
               {square.startsWith(flipped ? "h" : "a") && <span className="absolute bottom-0 left-1 text-[8px] text-black/45">{square[1]}</span>}
             </button>;
           })}
@@ -207,7 +211,7 @@ export function ChessCompanion() {
 
       <aside className="border-t border-white/[0.08] p-4 xl:border-l xl:border-t-0">
         <div className="flex items-center justify-between"><span className="text-xs font-semibold uppercase tracking-[.16em] text-white/70">Moves</span><span className="font-mono text-[11px] text-white/50">{game.history().length} ply</span></div>
-        <div ref={moveHistoryRef} className="mt-3 h-[330px] overflow-y-auto rounded-xl border border-white/[0.08] bg-[#12131b] p-3 text-white">
+        <div ref={moveHistoryRef} className="mt-3 h-[220px] overflow-y-auto rounded-xl border border-white/[0.08] bg-[#12131b] p-3 text-white md:h-[330px]">
           {moves.length > 0 ? Array.from({ length: Math.ceil(moves.length / 2) }, (_, index) => <div key={index} className="grid grid-cols-[32px_1fr_1fr] items-center rounded-md px-1 py-2 font-medium text-[15px] text-white"><span className="text-[#aaa9b5]">{index + 1}.</span><span className="text-[#f4f3f7]">{moves[index * 2]}</span><span className="text-[#e8e6ef]">{moves[index * 2 + 1] || ""}</span></div>) : <div className="grid min-h-[300px] place-items-center text-sm text-[#aaa9b5]">No moves yet</div>}
         </div>
         <div className="mt-4 grid grid-cols-2 gap-y-2 text-[10px] text-[#aaa9b5]"><span>You captured <b className="ml-1 text-base text-white/75">{captured(playerColor)}</b></span><span>Ammar captured <b className="ml-1 text-base text-white/75">{captured(playerColor === "w" ? "b" : "w")}</b></span></div>
