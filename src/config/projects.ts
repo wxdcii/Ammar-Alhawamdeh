@@ -13,6 +13,16 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "chess-arena",
+    title: "Chess Arena — Play Chess Against Me",
+    date: "11.2026",
+    description: "Chess Arena developed by me.",
+    tech: ["TypeScript", "React", "Chess.js"],
+    featured: true,
+    cover: "/assets/Chess.jpg",
+    gradient: "from-violet-500/25 via-indigo-500/15 to-slate-950/40",
+  },
+  {
     slug: "doors",
     title: "Doors",
     date: "10.2026",

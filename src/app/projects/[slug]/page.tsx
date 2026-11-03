@@ -5,6 +5,7 @@ import { Globe } from "@phosphor-icons/react/dist/ssr";
 import { Container } from "@/components/container";
 import { MdxContent } from "@/components/mdx-content";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+import { ChessCompanion } from "@/components/chess-companion";
 import { projects } from "@/config/projects";
 import { getProjectPost, getProjectPosts } from "@/lib/mdx";
 import { createPageMetadata, pageTitle } from "@/lib/metadata";
@@ -83,7 +84,7 @@ export default async function ProjectDetailPage({
             ))}
           </div>
         )}
-        {cover && (
+        {cover && slug !== "chess-arena" && (
           <LiquidGlassCard
             glowIntensity="sm"
             shadowIntensity="md"
@@ -99,6 +100,9 @@ export default async function ProjectDetailPage({
               className="object-cover object-top"
             />
           </LiquidGlassCard>
+        )}
+        {slug === "chess-arena" && (
+          <div className="mt-8"><ChessCompanion /></div>
         )}
         <article className="prose prose-neutral dark:prose-invert mt-8 max-w-none">
           {post ? (
